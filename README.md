@@ -1,8 +1,8 @@
 # DECISION-TREE-IMPLEMENTATION
 
 *COMPANY*: COOTECH IT SOLUTIONS 
-*NAME*:peddinti srinu  
-·INTERN ID*：CTIS8185 
+*NAME*:peddinti srinu 
+*INTERN ID*：CTIS8185 
 *DOMAIN*：Machine Learning 
 *DURATION*: 8 WEEEKS 
 *MENTOR*: Neela Santhosh Kumar 
