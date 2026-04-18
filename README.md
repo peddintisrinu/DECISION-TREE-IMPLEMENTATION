@@ -12,7 +12,11 @@
 
 *MENTOR*: Neela Santhosh Kumar 
 
-#YOU HAVE TO ENTER DESCRIOTON OF YOUR TASK (AND IT SHOULD NOT BE LESS THAN 508 WORDS) 
+#DESCRIOTON
+
+A Decision Tree is a supervised machine learning algorithm used for both classification and regression tasks. It works by splitting the dataset into smaller subsets based on feature values, forming a tree-like structure of decisions. Each internal node represents a condition on a feature, each branch represents the outcome of that condition, and each leaf node represents the final prediction.
+In this project, a Decision Tree model is implemented using the Scikit-learn library to classify data from a chosen dataset (Iris dataset in this case). The dataset contains features such as sepal length, sepal width, petal length, and petal width, which are used to predict the class of a flower.
+The implementation begins by importing the required libraries and loading the dataset. The data is then split into training and testing sets to evaluate the model’s performance. A Decision Tree Classifier is created using parameters such as criterion (gini or entropy) and max_depth to control the complexity of the tree. The model is trained on the training data and then used to make predictions on the test data.
 
 #OUTPUT 
 
