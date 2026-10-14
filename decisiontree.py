@@ -1,4 +1,4 @@
-```python
+
 # ============================================================
 # DECISION TREE CLASSIFICATION - IRIS DATASET
 # ============================================================
@@ -158,4 +158,4 @@ for name, probability in zip(data.target_names, probabilities):
     print(f"{name}: {probability * 100:.2f}%")
 
 print("\nProgram executed successfully!")
-```
+
