@@ -1,101 +1,161 @@
-# ============================================
-# 🌳 Decision Tree Implementation (Full Code)
-# ============================================
+```python
+# ============================================================
+# DECISION TREE CLASSIFICATION - IRIS DATASET
+# ============================================================
 
 # Step 1: Import Libraries
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    classification_report,
+    ConfusionMatrixDisplay
+)
 
-# ============================================
 # Step 2: Load Dataset
-# ============================================
 data = load_iris()
 
 X = data.data
 y = data.target
 
-print("Dataset Loaded Successfully!\n")
-print("Feature Names:", data.feature_names)
-print("Target Names:", data.target_names)
-print("Shape of Features:", X.shape)
-print("Shape of Target:", y.shape)
+print("=" * 55)
+print("       DECISION TREE CLASSIFICATION")
+print("=" * 55)
 
-# ============================================
+print("\nDataset loaded successfully!")
+print("Number of samples:", X.shape[0])
+print("Number of features:", X.shape[1])
+print("Feature names:", data.feature_names)
+print("Target classes:", list(data.target_names))
+
 # Step 3: Split Dataset
-# ============================================
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42
+    X,
+    y,
+    test_size=0.30,
+    random_state=42,
+    stratify=y
 )
 
-print("\nData Split Completed!")
-print("Training Data:", X_train.shape)
-print("Testing Data:", X_test.shape)
+print("\nTraining samples:", len(X_train))
+print("Testing samples:", len(X_test))
 
-# ============================================
-# Step 4: Train Decision Tree Model
-# ============================================
+# Step 4: Create and Train Decision Tree Model
 model = DecisionTreeClassifier(
-    criterion='gini',   # you can also use 'entropy'
+    criterion="gini",
     max_depth=3,
     random_state=42
 )
 
 model.fit(X_train, y_train)
 
-print("\nModel Training Completed!")
+print("\nModel training completed successfully!")
 
-# ============================================
-# Step 5: Predictions
-# ============================================
+# Step 5: Make Predictions
 y_pred = model.predict(X_test)
 
-# ============================================
-# Step 6: Model Evaluation
-# ============================================
-print("\n========== MODEL EVALUATION ==========\n")
-
+# Step 6: Evaluate Model
 accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
 
-print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\n" + "=" * 55)
+print("                 MODEL EVALUATION")
+print("=" * 55)
 
-print("\nClassification Report:\n", classification_report(y_test, y_pred))
+print(f"\nModel Accuracy: {accuracy * 100:.2f}%")
 
-# ============================================
-# Step 7: Visualize Decision Tree
-# ============================================
-plt.figure(figsize=(12, 8))
+print("\nConfusion Matrix:")
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+print("\nClassification Report:")
+print(
+    classification_report(
+        y_test,
+        y_pred,
+        target_names=data.target_names,
+        zero_division=0
+    )
+)
+
+# Step 7: Visualize Confusion Matrix
+ConfusionMatrixDisplay(
+    confusion_matrix=cm,
+    display_labels=data.target_names
+).plot(cmap="Blues", values_format="d")
+
+plt.title("Decision Tree - Confusion Matrix")
+plt.tight_layout()
+plt.show()
+
+# Step 8: Visualize Decision Tree
+plt.figure(figsize=(16, 9))
 
 plot_tree(
     model,
     feature_names=data.feature_names,
     class_names=data.target_names,
-    filled=True
+    filled=True,
+    rounded=True,
+    proportion=False,
+    precision=2
 )
 
-plt.title("Decision Tree Visualization")
+plt.title("Decision Tree Classification - Iris Dataset")
+plt.tight_layout()
 plt.show()
 
-# ============================================
-# Step 8: Feature Importance (Extra)
-# ============================================
-importance = model.feature_importances_
+# Step 9: Display Feature Importance
+print("\n" + "=" * 55)
+print("               FEATURE IMPORTANCE")
+print("=" * 55)
 
-print("\nFeature Importances:")
-for i, v in enumerate(importance):
-    print(f"{data.feature_names[i]}: {v:.4f}")
+for feature, importance in zip(
+    data.feature_names,
+    model.feature_importances_
+):
+    print(f"{feature}: {importance:.4f}")
 
-# ============================================
-# Step 9: Predict New Sample (Optional)
-# ============================================
-sample = [[5.1, 3.5, 1.4, 0.2]]  # Example input
+# Feature importance visualization
+plt.figure(figsize=(9, 5))
+
+plt.barh(
+    data.feature_names,
+    model.feature_importances_
+)
+
+plt.xlabel("Importance Score")
+plt.ylabel("Features")
+plt.title("Feature Importance in Decision Tree")
+plt.tight_layout()
+plt.show()
+
+# Step 10: Predict a New Sample
+sample = np.array([[5.1, 3.5, 1.4, 0.2]])
+
 prediction = model.predict(sample)
+predicted_class = data.target_names[prediction[0]]
 
-print("\nPrediction for sample:", sample)
-print("Predicted Class:", data.target_names[prediction][0])
+print("\n" + "=" * 55)
+print("                NEW SAMPLE PREDICTION")
+print("=" * 55)
+
+print("\nInput Features:")
+for name, value in zip(data.feature_names, sample[0]):
+    print(f"{name}: {value} cm")
+
+print("\nPredicted Flower Species:", predicted_class)
+
+# Display prediction probabilities
+probabilities = model.predict_proba(sample)[0]
+
+print("\nPrediction Probabilities:")
+for name, probability in zip(data.target_names, probabilities):
+    print(f"{name}: {probability * 100:.2f}%")
+
+print("\nProgram executed successfully!")
+```
